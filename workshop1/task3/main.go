@@ -38,19 +38,43 @@ func (d Duck) Quack() {
 	d.qb()
 }
 
-func playWithDuck(d IDuck) {
-	d.Fly()
-	d.Quack()
+type MallardDuck struct {
+	Duck
+}
+
+func NewMallardDuck() IDuck {
+	return &MallardDuck{Duck{FlyingBehavior{}, func() { fmt.Println("Quack") }}}
+}
+
+type RubberDuck struct {
+	Duck
 }
 
 func squeek() {
 	fmt.Println("Squeek")
 }
 
+func NewRubberDuck() IDuck {
+	return &RubberDuck{Duck{NoFlyBehavior{}, squeek}}
+}
+
+type WoodenDuck struct {
+	Duck
+}
+
+func NewWoodenDuck() IDuck {
+	return &WoodenDuck{Duck{NoFlyBehavior{}, func() { fmt.Println("Silent") }}}
+}
+
+func playWithDuck(d IDuck) {
+	d.Fly()
+	d.Quack()
+}
+
 func main() {
-	mallardDuck := Duck{FlyingBehavior{}, func() { fmt.Println("Quack") }}
-	rubberDuck := Duck{NoFlyBehavior{}, squeek}
-	woodenDuck := Duck{NoFlyBehavior{}, func() { fmt.Println("Silent") }}
+	mallardDuck := NewMallardDuck()
+	rubberDuck := NewRubberDuck()
+	woodenDuck := NewWoodenDuck()
 
 	playWithDuck(mallardDuck)
 	playWithDuck(rubberDuck)
