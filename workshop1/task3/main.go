@@ -48,9 +48,11 @@ func squeek() {
 }
 
 func main() {
-	d1 := Duck{FlyingBehavior{}, func() { fmt.Println("Quack") }}
-	d2 := Duck{NoFlyBehavior{}, squeek}
+	mallardDuck := Duck{FlyingBehavior{}, func() { fmt.Println("Quack") }}
+	rubberDuck := Duck{NoFlyBehavior{}, squeek}
+	woodenDuck := Duck{NoFlyBehavior{}, func() { fmt.Println("Silent") }}
 
-	playWithDuck(d1)
-	playWithDuck(d2)
+	playWithDuck(mallardDuck)
+	playWithDuck(rubberDuck)
+	playWithDuck(woodenDuck)
 }
