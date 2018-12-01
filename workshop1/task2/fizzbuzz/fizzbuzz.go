@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
-func Get() string {
+func Get(count int) string {
 	result := ""
 
-	for i := 1; i <= 20; i++ {
+	for i := 1; i <= count; i++ {
 		values := []string{}
 
 		d3 := i%3 == 0

@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	fmt.Print(fizzbuzz.Get())
+	fmt.Print(fizzbuzz.Get(100))
 }
