@@ -42,7 +42,7 @@ type MallardDuck struct {
 	Duck
 }
 
-func NewMallardDuck() IDuck {
+func NewMallardDuck() *MallardDuck {
 	return &MallardDuck{Duck{FlyingBehavior{}, func() { fmt.Println("Quack") }}}
 }
 
@@ -54,7 +54,7 @@ func squeek() {
 	fmt.Println("Squeek")
 }
 
-func NewRubberDuck() IDuck {
+func NewRubberDuck() *RubberDuck {
 	return &RubberDuck{Duck{NoFlyBehavior{}, squeek}}
 }
 
@@ -62,7 +62,7 @@ type WoodenDuck struct {
 	Duck
 }
 
-func NewWoodenDuck() IDuck {
+func NewWoodenDuck() *WoodenDuck {
 	return &WoodenDuck{Duck{NoFlyBehavior{}, func() { fmt.Println("Silent") }}}
 }
 
