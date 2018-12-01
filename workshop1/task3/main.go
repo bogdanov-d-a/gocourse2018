@@ -6,19 +6,15 @@ type FlyBehavior interface {
 	Fly()
 }
 
-type FlyingBehavior struct {
-	FlyBehavior
-}
+type FlyingBehavior struct{}
 
-type NoFlyBehavior struct {
-	FlyBehavior
-}
+type NoFlyBehavior struct{}
 
-func (d FlyingBehavior) Fly() {
+func (FlyingBehavior) Fly() {
 	fmt.Println("Duck is flying")
 }
 
-func (d NoFlyBehavior) Fly() {
+func (NoFlyBehavior) Fly() {
 	fmt.Println("Duck can't fly")
 }
 
@@ -47,9 +43,13 @@ func playWithDuck(d IDuck) {
 	d.Quack()
 }
 
+func squeek() {
+	fmt.Println("Squeek")
+}
+
 func main() {
 	d1 := Duck{FlyingBehavior{}, func() { fmt.Println("Quack") }}
-	d2 := Duck{NoFlyBehavior{}, func() { fmt.Println("Squeek") }}
+	d2 := Duck{NoFlyBehavior{}, squeek}
 
 	playWithDuck(d1)
 	playWithDuck(d2)
