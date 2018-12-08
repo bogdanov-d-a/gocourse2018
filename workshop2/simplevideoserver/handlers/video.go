@@ -19,11 +19,12 @@ type VideoData struct {
 func Video(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["ID"]
+	data_src := GetVideoListDataById(id)
 
 	data := VideoData{
 		id,
-		"Black Retrospetive Woman",
-		15,
+		data_src.name,
+		data_src.duration,
 		"/content/" + id + "/screen.jpg",
 		"/content/" + id + "/index.mp4"}
 
