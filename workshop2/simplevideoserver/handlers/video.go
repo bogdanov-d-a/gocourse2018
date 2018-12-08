@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"io"
 	"net/http"
@@ -15,13 +16,16 @@ type VideoData struct {
 	Url       string `json:"url"`
 }
 
-func Video(w http.ResponseWriter, _ *http.Request) {
+func Video(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["ID"]
+
 	data := VideoData{
-		"d290f1ee-6c54-4b01-90e6-d701748f0851",
+		id,
 		"Black Retrospetive Woman",
 		15,
-		"/content/d290f1ee-6c54-4b01-90e6-d701748f0851/screen.jpg",
-		"/content/d290f1ee-6c54-4b01-90e6-d701748f0851/index.mp4"}
+		"/content/" + id + "/screen.jpg",
+		"/content/" + id + "/index.mp4"}
 
 	b, err := json.Marshal(data)
 	if err != nil {
