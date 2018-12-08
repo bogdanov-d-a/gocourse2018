@@ -7,6 +7,12 @@ import (
 	"net/http"
 )
 
+type listDataMin struct {
+	id       string
+	name     string
+	duration int
+}
+
 type ListData struct {
 	Id        string `json:"id"`
 	Name      string `json:"name"`
@@ -15,14 +21,23 @@ type ListData struct {
 }
 
 func List(w http.ResponseWriter, _ *http.Request) {
-	data := ListData{
-		"d290f1ee-6c54-4b01-90e6-d701748f0851",
-		"Black Retrospetive Woman",
-		15,
-		"/content/d290f1ee-6c54-4b01-90e6-d701748f0851/screen.jpg"}
+	ids := [3]listDataMin{
+		{"d290f1ee-6c54-4b01-90e6-d701748f0851", "Black Retrospetive Woman", 15},
+		{"sldjfl34-dfgj-523k-jk34-5jk3j45klj34", "Go Rally TEASER-HD", 41},
+		{"hjkhhjk3-23j4-j45k-erkj-kj3k4jl2k345", "Танцор", 92},
+	}
 
-	dataList := [1]ListData{data}
-	b, err := json.Marshal(dataList)
+	var responseData [3]ListData
+	for i := 0; i < len(ids); i++ {
+		data_src := ids[i]
+		responseData[i] = ListData{
+			data_src.id,
+			data_src.name,
+			data_src.duration,
+			"/content/" + data_src.id + "/screen.jpg"}
+	}
+
+	b, err := json.Marshal(responseData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
