@@ -7,12 +7,6 @@ import (
 	"net/http"
 )
 
-type listDataMin struct {
-	id       string
-	name     string
-	duration int
-}
-
 type ListData struct {
 	Id        string `json:"id"`
 	Name      string `json:"name"`
@@ -21,12 +15,7 @@ type ListData struct {
 }
 
 func List(w http.ResponseWriter, _ *http.Request) {
-	ids := [3]listDataMin{
-		{"d290f1ee-6c54-4b01-90e6-d701748f0851", "Black Retrospetive Woman", 15},
-		{"sldjfl34-dfgj-523k-jk34-5jk3j45klj34", "Go Rally TEASER-HD", 41},
-		{"hjkhhjk3-23j4-j45k-erkj-kj3k4jl2k345", "Танцор", 92},
-	}
-
+	ids := GetVideoList()
 	var responseData [3]ListData
 	for i := 0; i < len(ids); i++ {
 		data_src := ids[i]
