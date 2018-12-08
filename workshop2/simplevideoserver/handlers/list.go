@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	log "github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 )
@@ -21,9 +22,15 @@ func List(w http.ResponseWriter, _ *http.Request) {
 		"/content/d290f1ee-6c54-4b01-90e6-d701748f0851/screen.jpg"}
 
 	dataList := [1]ListData{data}
-	b, _ := json.Marshal(dataList)
+	b, err := json.Marshal(dataList)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	io.WriteString(w, string(b))
+	if _, err = io.WriteString(w, string(b)); err != nil {
+		log.WithField("err", err).Error("write response error")
+	}
 	w.WriteHeader(http.StatusOK)
 }
