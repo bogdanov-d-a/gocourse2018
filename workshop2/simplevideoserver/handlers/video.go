@@ -16,9 +16,7 @@ type VideoData struct {
 	Url       string `json:"url"`
 }
 
-func Video(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["ID"]
+func videoImpl(w http.ResponseWriter, id string) {
 	data_src := GetVideoListDataById(id)
 
 	data := VideoData{
@@ -39,4 +37,10 @@ func Video(w http.ResponseWriter, r *http.Request) {
 		log.WithField("err", err).Error("write response error")
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func Video(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["ID"]
+	videoImpl(w, id)
 }
