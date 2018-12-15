@@ -16,8 +16,8 @@ func UploadVideo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	contentType := header.Header.Get("Content-Type")
-	if contentType == "" {
-		http.Error(w, "Content type is empty", http.StatusInternalServerError)
+	if contentType != "video/mp4" {
+		http.Error(w, "Content type is not valid", http.StatusInternalServerError)
 		return
 	}
 
