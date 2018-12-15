@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/database"
 	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/handlers"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -16,6 +17,11 @@ func main() {
 	if err == nil {
 		log.SetOutput(file)
 	}
+
+	database.Init()
+	database.AddVideo(database.VideoData{"d290f1ee-6c54-4b01-90e6-d701748f0851", "Black Retrospetive Woman", 15})
+	database.AddVideo(database.VideoData{"sldjfl34-dfgj-523k-jk34-5jk3j45klj34", "Go Rally TEASER-HD", 41})
+	database.AddVideo(database.VideoData{"hjkhhjk3-23j4-j45k-erkj-kj3k4jl2k345", "Танцор", 92})
 
 	serverUrl := ":8000"
 	log.WithFields(log.Fields{"url": serverUrl}).Info("starting the server")

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/database"
 	log "github.com/sirupsen/logrus"
 	"io"
 	"net/http"
@@ -15,15 +16,20 @@ type ListData struct {
 }
 
 func List(w http.ResponseWriter, _ *http.Request) {
-	ids := GetVideoList()
-	var responseData [3]ListData
+	ids, err := database.GetVideoList()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	responseData := make([]ListData, len(ids))
 	for i := 0; i < len(ids); i++ {
 		data_src := ids[i]
 		responseData[i] = ListData{
-			data_src.id,
-			data_src.name,
-			data_src.duration,
-			"/content/" + data_src.id + "/screen.jpg"}
+			data_src.Id,
+			data_src.Name,
+			data_src.Duration,
+			"/content/" + data_src.Id + "/screen.jpg"}
 	}
 
 	b, err := json.Marshal(responseData)
