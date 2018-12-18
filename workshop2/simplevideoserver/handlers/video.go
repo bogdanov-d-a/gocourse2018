@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/database"
 	"github.com/gorilla/mux"
@@ -17,8 +18,8 @@ type VideoData struct {
 	Url       string `json:"url"`
 }
 
-func videoImpl(w http.ResponseWriter, id string) {
-	data_src, err := database.GetVideoListDataById(id)
+func videoImpl(db *sql.DB, w http.ResponseWriter, id string) {
+	data_src, err := database.GetVideoListDataById(db, id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -44,8 +45,8 @@ func videoImpl(w http.ResponseWriter, id string) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func Video(w http.ResponseWriter, r *http.Request) {
+func Video(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["ID"]
-	videoImpl(w, id)
+	videoImpl(db, w, id)
 }
