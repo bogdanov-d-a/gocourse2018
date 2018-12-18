@@ -21,7 +21,7 @@ func UploadVideo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fileName := header.Filename
+	fileName := "index.mp4"
 	file, err := createFile(fileName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
