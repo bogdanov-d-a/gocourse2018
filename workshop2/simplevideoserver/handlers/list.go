@@ -15,13 +15,7 @@ type ListData struct {
 	Thumbnail string `json:"thumbnail"`
 }
 
-func List(db database.Database, w http.ResponseWriter, _ *http.Request) {
-	ids, err := db.GetVideoList()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
+func List(ids []database.VideoData, w http.ResponseWriter) {
 	responseData := make([]ListData, len(ids))
 	for i := 0; i < len(ids); i++ {
 		data_src := ids[i]
