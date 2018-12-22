@@ -14,8 +14,7 @@ func UploadVideo(db database.Database, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	contentType := header.Header.Get("Content-Type")
-	if contentType != "video/mp4" {
+	if header.Header.Get("Content-Type") != "video/mp4" {
 		http.Error(w, "Content type is not valid", http.StatusInternalServerError)
 		return
 	}
@@ -34,8 +33,7 @@ func UploadVideo(db database.Database, w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
-	_, err = io.Copy(file, fileReader)
-	if err != nil {
+	if _, err = io.Copy(file, fileReader); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

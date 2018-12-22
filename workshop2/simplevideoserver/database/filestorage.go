@@ -48,8 +48,7 @@ func CreatePreviewFileFromDefault(id string) error {
 	}
 	defer dstFile.Close()
 
-	_, err = io.Copy(dstFile, srcFile)
-	if err != nil {
+	if _, err = io.Copy(dstFile, srcFile); err != nil {
 		return err
 	}
 

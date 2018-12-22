@@ -32,8 +32,7 @@ func (db Database) Close() {
 }
 
 func (db Database) exec(query string) {
-	_, err := db.db.Exec(query)
-	if err != nil {
+	if _, err := db.db.Exec(query); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -63,8 +62,7 @@ func (db Database) GetVideoList() ([]VideoData, error) {
 
 	for rows.Next() {
 		var element VideoData
-		err := rows.Scan(&element.Id, &element.Name, &element.Duration)
-		if err != nil {
+		if err := rows.Scan(&element.Id, &element.Name, &element.Duration); err != nil {
 			return elements, err
 		}
 		elements = append(elements, element)
@@ -83,8 +81,7 @@ func (db Database) GetVideoListDataById(id string) (VideoData, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&result.Id, &result.Name, &result.Duration)
-		if err != nil {
+		if err := rows.Scan(&result.Id, &result.Name, &result.Duration); err != nil {
 			return result, err
 		}
 	}
@@ -93,8 +90,7 @@ func (db Database) GetVideoListDataById(id string) (VideoData, error) {
 }
 
 func (db Database) AddVideo(data VideoData) {
-	_, err := db.db.Exec("INSERT INTO video (video_key, title, duration) VALUES (?, ?, ?);", data.Id, data.Name, data.Duration)
-	if err != nil {
+	if _, err := db.db.Exec("INSERT INTO video (video_key, title, duration) VALUES (?, ?, ?);", data.Id, data.Name, data.Duration); err != nil {
 		log.Fatal(err)
 	}
 }

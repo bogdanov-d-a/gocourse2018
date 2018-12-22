@@ -13,8 +13,7 @@ import (
 
 func main() {
 	log.SetFormatter(&log.JSONFormatter{})
-	file, err := os.OpenFile("my.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
-	if err == nil {
+	if file, err := os.OpenFile("my.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666); err == nil {
 		log.SetOutput(file)
 	}
 
