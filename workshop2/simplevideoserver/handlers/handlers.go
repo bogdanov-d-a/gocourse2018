@@ -24,6 +24,6 @@ func Router(db database.Database) http.Handler {
 	s := r.PathPrefix("/api/v1").Subrouter()
 	s.HandleFunc("/list", func(w http.ResponseWriter, r *http.Request) { List(db, w, r) }).Methods(http.MethodGet)
 	s.HandleFunc("/video/{ID}", func(w http.ResponseWriter, r *http.Request) { Video(db, w, r) }).Methods(http.MethodGet)
-	s.HandleFunc("/video", UploadVideo).Methods(http.MethodPost)
+	s.HandleFunc("/video", func(w http.ResponseWriter, r *http.Request) { UploadVideo(db, w, r) }).Methods(http.MethodPost)
 	return logMiddleware(r)
 }

@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func UploadVideo(w http.ResponseWriter, r *http.Request) {
+func UploadVideo(db database.Database, w http.ResponseWriter, r *http.Request) {
 	fileReader, header, err := r.FormFile("file[]")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -44,4 +44,6 @@ func UploadVideo(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	db.AddVideo(database.VideoData{id, header.Filename, 0})
 }
