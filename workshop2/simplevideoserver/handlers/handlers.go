@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"database/sql"
+	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/database"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -19,7 +19,7 @@ func logMiddleware(h http.Handler) http.Handler {
 	})
 }
 
-func Router(db *sql.DB) http.Handler {
+func Router(db database.Database) http.Handler {
 	r := mux.NewRouter()
 	s := r.PathPrefix("/api/v1").Subrouter()
 	s.HandleFunc("/list", func(w http.ResponseWriter, r *http.Request) { List(db, w, r) }).Methods(http.MethodGet)

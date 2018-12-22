@@ -12,7 +12,11 @@ type VideoData struct {
 	Duration int
 }
 
-func Open() *sql.DB {
+type Database struct {
+	db *sql.DB
+}
+
+func Open() Database {
 	db, err := sql.Open("mysql", "root:root@/gocourse")
 	if err != nil {
 		log.Fatal(err)
@@ -20,20 +24,24 @@ func Open() *sql.DB {
 	if err := db.Ping(); err != nil {
 		log.Fatal(err)
 	}
-	return db
+	return Database{db}
 }
 
-func exec(db *sql.DB, query string) {
-	_, err := db.Exec(query)
+func (db Database) Close() {
+	db.db.Close()
+}
+
+func (db Database) exec(query string) {
+	_, err := db.db.Exec(query)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func Init(db *sql.DB) {
-	exec(db, "DROP TABLE IF EXISTS video;")
+func (db Database) Init() {
+	db.exec("DROP TABLE IF EXISTS video;")
 
-	exec(db,
+	db.exec(
 		`CREATE TABLE video
 (
 	id            INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT,
@@ -44,10 +52,10 @@ func Init(db *sql.DB) {
 );`)
 }
 
-func GetVideoList(db *sql.DB) ([]VideoData, error) {
+func (db Database) GetVideoList() ([]VideoData, error) {
 	elements := make([]VideoData, 0)
 
-	rows, err := db.Query("SELECT video_key, title, duration FROM video;")
+	rows, err := db.db.Query("SELECT video_key, title, duration FROM video;")
 	if err != nil {
 		return elements, err
 	}
@@ -65,10 +73,10 @@ func GetVideoList(db *sql.DB) ([]VideoData, error) {
 	return elements, nil
 }
 
-func GetVideoListDataById(db *sql.DB, id string) (VideoData, error) {
+func (db Database) GetVideoListDataById(id string) (VideoData, error) {
 	result := VideoData{}
 
-	rows, err := db.Query("SELECT video_key, title, duration FROM video WHERE video_key=?;", id)
+	rows, err := db.db.Query("SELECT video_key, title, duration FROM video WHERE video_key=?;", id)
 	if err != nil {
 		return result, err
 	}
@@ -84,8 +92,8 @@ func GetVideoListDataById(db *sql.DB, id string) (VideoData, error) {
 	return result, nil
 }
 
-func AddVideo(db *sql.DB, data VideoData) {
-	_, err := db.Exec("INSERT INTO video (video_key, title, duration) VALUES (?, ?, ?);", data.Id, data.Name, data.Duration)
+func (db Database) AddVideo(data VideoData) {
+	_, err := db.db.Exec("INSERT INTO video (video_key, title, duration) VALUES (?, ?, ?);", data.Id, data.Name, data.Duration)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"database/sql"
 	"encoding/json"
 	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/database"
 	log "github.com/sirupsen/logrus"
@@ -16,8 +15,8 @@ type ListData struct {
 	Thumbnail string `json:"thumbnail"`
 }
 
-func List(db *sql.DB, w http.ResponseWriter, _ *http.Request) {
-	ids, err := database.GetVideoList(db)
+func List(db database.Database, w http.ResponseWriter, _ *http.Request) {
+	ids, err := db.GetVideoList()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
