@@ -1,11 +1,10 @@
 package handlers
 
 import (
+	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/database"
 	"github.com/google/uuid"
 	"io"
 	"net/http"
-	"os"
-	"path/filepath"
 )
 
 func UploadVideo(w http.ResponseWriter, r *http.Request) {
@@ -21,8 +20,7 @@ func UploadVideo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fileName := "index.mp4"
-	file, err := createFile(fileName)
+	file, err := database.CreateVideoFile(uuid.New().String())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -33,13 +31,4 @@ func UploadVideo(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-}
-
-func createFile(fileName string) (*os.File, error) {
-	dirPath := "content/" + uuid.New().String()
-	if err := os.Mkdir(dirPath, os.ModeDir); err != nil {
-		return nil, err
-	}
-	filePath := filepath.Join(dirPath, fileName)
-	return os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.ModePerm)
 }
