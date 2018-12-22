@@ -20,14 +20,27 @@ func UploadVideo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, err := database.CreateVideoFile(uuid.New().String())
+	id := uuid.New().String()
+
+	if err := database.MakeContentDir(id); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	file, err := database.CreateVideoFile(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	defer file.Close()
+
 	_, err = io.Copy(file, fileReader)
 	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := database.CreatePreviewFileFromDefault(id); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
