@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/bogdanov-d-a/gocourse2018/workshop2/simplevideoserver/database"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -10,7 +11,7 @@ import (
 
 func TestVideo(t *testing.T) {
 	w := httptest.NewRecorder()
-	videoImpl(w, "d290f1ee-6c54-4b01-90e6-d701748f0851")
+	Video(database.VideoData{}, w)
 	response := w.Result()
 	if response.StatusCode != http.StatusOK {
 		t.Errorf("Status code is wrong. Have: %d, want: %d.", response.StatusCode, http.StatusOK)
