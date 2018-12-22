@@ -7,12 +7,27 @@ import (
 
 const contentDir = "content/"
 const videoFileName = "index.mp4"
+const previewFileName = "screen.jpg"
+
+func getContentDirForId(id string) string {
+	return contentDir + id
+}
+
+func GetVideoFilePath(id string) string {
+	return filepath.Join(getContentDirForId(id), videoFileName)
+}
+
+func GetPreviewFilePath(id string) string {
+	return filepath.Join(getContentDirForId(id), previewFileName)
+}
+
+func makeContentDir(id string) error {
+	return os.Mkdir(getContentDirForId(id), os.ModeDir)
+}
 
 func CreateVideoFile(id string) (*os.File, error) {
-	dirPath := contentDir + id
-	if err := os.Mkdir(dirPath, os.ModeDir); err != nil {
+	if err := makeContentDir(id); err != nil {
 		return nil, err
 	}
-	filePath := filepath.Join(dirPath, videoFileName)
-	return os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.ModePerm)
+	return os.OpenFile(GetVideoFilePath(id), os.O_CREATE|os.O_WRONLY, os.ModePerm)
 }

@@ -28,8 +28,8 @@ func videoImpl(db database.Database, w http.ResponseWriter, id string) {
 		id,
 		data_src.Name,
 		data_src.Duration,
-		"/content/" + id + "/screen.jpg",
-		"/content/" + id + "/index.mp4"}
+		"/" + database.GetPreviewFilePath(id),
+		"/" + database.GetVideoFilePath(id)}
 
 	b, err := json.Marshal(data)
 	if err != nil {

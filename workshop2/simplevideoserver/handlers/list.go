@@ -29,7 +29,7 @@ func List(db database.Database, w http.ResponseWriter, _ *http.Request) {
 			data_src.Id,
 			data_src.Name,
 			data_src.Duration,
-			"/content/" + data_src.Id + "/screen.jpg"}
+			"/" + database.GetPreviewFilePath(data_src.Id)}
 	}
 
 	b, err := json.Marshal(responseData)
