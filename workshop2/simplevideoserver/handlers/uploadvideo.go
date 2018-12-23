@@ -43,5 +43,5 @@ func UploadVideo(db database.Database, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db.AddVideo(database.VideoData{id, header.Filename, 0})
+	db.AddVideo(database.VideoData{ID: id, Name: header.Filename, Duration: 0})
 }

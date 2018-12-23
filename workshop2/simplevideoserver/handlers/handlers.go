@@ -36,13 +36,13 @@ func Router(db database.Database) http.Handler {
 		vars := mux.Vars(r)
 		id := vars["ID"]
 
-		data_src, err := db.GetVideoListDataById(id)
+		dataSrc, err := db.GetVideoListDataByID(id)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		Video(data_src, w)
+		Video(dataSrc, w)
 	}).Methods(http.MethodGet)
 
 	s.HandleFunc("/video", func(w http.ResponseWriter, r *http.Request) { UploadVideo(db, w, r) }).Methods(http.MethodPost)

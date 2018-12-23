@@ -11,20 +11,20 @@ const videoFileName = "index.mp4"
 const previewFileName = "screen.jpg"
 const defaultPreviewFilePath = "screen-default.jpg"
 
-func getContentDirForId(id string) string {
+func getContentDirForID(id string) string {
 	return contentDir + id
 }
 
 func GetVideoFilePath(id string) string {
-	return filepath.Join(getContentDirForId(id), videoFileName)
+	return filepath.Join(getContentDirForID(id), videoFileName)
 }
 
 func GetPreviewFilePath(id string) string {
-	return filepath.Join(getContentDirForId(id), previewFileName)
+	return filepath.Join(getContentDirForID(id), previewFileName)
 }
 
 func MakeContentDir(id string) error {
-	return os.Mkdir(getContentDirForId(id), os.ModeDir)
+	return os.Mkdir(getContentDirForID(id), os.ModeDir)
 }
 
 func openNewFile(path string) (*os.File, error) {

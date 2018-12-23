@@ -25,18 +25,18 @@ func main() {
 	db.AddVideo(database.VideoData{"sldjfl34-dfgj-523k-jk34-5jk3j45klj34", "Go Rally TEASER-HD", 41})
 	db.AddVideo(database.VideoData{"hjkhhjk3-23j4-j45k-erkj-kj3k4jl2k345", "Танцор", 92})*/
 
-	serverUrl := ":8000"
-	log.WithFields(log.Fields{"url": serverUrl}).Info("starting the server")
+	serverURL := ":8000"
+	log.WithFields(log.Fields{"url": serverURL}).Info("starting the server")
 	router := handlers.Router(db)
 
 	killSignalChan := getKillSignalChan()
-	srv := startServer(serverUrl, router)
+	srv := startServer(serverURL, router)
 	waitForKillSignal(killSignalChan)
 	srv.Shutdown(context.Background())
 }
 
-func startServer(serverUrl string, handler http.Handler) *http.Server {
-	srv := &http.Server{Addr: serverUrl, Handler: handler}
+func startServer(serverURL string, handler http.Handler) *http.Server {
+	srv := &http.Server{Addr: serverURL, Handler: handler}
 	go func() {
 		log.Fatal(srv.ListenAndServe())
 	}()

@@ -7,7 +7,7 @@ import (
 )
 
 type VideoData struct {
-	Id       string
+	ID       string
 	Name     string
 	Duration int
 }
@@ -62,7 +62,7 @@ func (db Database) GetVideoList() ([]VideoData, error) {
 
 	for rows.Next() {
 		var element VideoData
-		if err := rows.Scan(&element.Id, &element.Name, &element.Duration); err != nil {
+		if err := rows.Scan(&element.ID, &element.Name, &element.Duration); err != nil {
 			return elements, err
 		}
 		elements = append(elements, element)
@@ -71,7 +71,7 @@ func (db Database) GetVideoList() ([]VideoData, error) {
 	return elements, nil
 }
 
-func (db Database) GetVideoListDataById(id string) (VideoData, error) {
+func (db Database) GetVideoListDataByID(id string) (VideoData, error) {
 	result := VideoData{}
 
 	rows, err := db.db.Query("SELECT video_key, title, duration FROM video WHERE video_key=?;", id)
@@ -81,7 +81,7 @@ func (db Database) GetVideoListDataById(id string) (VideoData, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		if err := rows.Scan(&result.Id, &result.Name, &result.Duration); err != nil {
+		if err := rows.Scan(&result.ID, &result.Name, &result.Duration); err != nil {
 			return result, err
 		}
 	}
@@ -90,7 +90,7 @@ func (db Database) GetVideoListDataById(id string) (VideoData, error) {
 }
 
 func (db Database) AddVideo(data VideoData) {
-	if _, err := db.db.Exec("INSERT INTO video (video_key, title, duration) VALUES (?, ?, ?);", data.Id, data.Name, data.Duration); err != nil {
+	if _, err := db.db.Exec("INSERT INTO video (video_key, title, duration) VALUES (?, ?, ?);", data.ID, data.Name, data.Duration); err != nil {
 		log.Fatal(err)
 	}
 }

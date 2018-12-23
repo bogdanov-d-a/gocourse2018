@@ -9,20 +9,20 @@ import (
 )
 
 type VideoData struct {
-	Id        string `json:"id"`
+	ID        string `json:"id"`
 	Name      string `json:"name"`
 	Duration  int    `json:"duration"`
 	Thumbnail string `json:"thumbnail"`
-	Url       string `json:"url"`
+	URL       string `json:"url"`
 }
 
-func Video(data_src database.VideoData, w http.ResponseWriter) {
+func Video(dataSrc database.VideoData, w http.ResponseWriter) {
 	data := VideoData{
-		data_src.Id,
-		data_src.Name,
-		data_src.Duration,
-		"/" + database.GetPreviewFilePath(data_src.Id),
-		"/" + database.GetVideoFilePath(data_src.Id)}
+		dataSrc.ID,
+		dataSrc.Name,
+		dataSrc.Duration,
+		"/" + database.GetPreviewFilePath(dataSrc.ID),
+		"/" + database.GetVideoFilePath(dataSrc.ID)}
 
 	b, err := json.Marshal(data)
 	if err != nil {

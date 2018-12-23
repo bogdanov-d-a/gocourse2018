@@ -9,7 +9,7 @@ import (
 )
 
 type ListData struct {
-	Id        string `json:"id"`
+	ID        string `json:"id"`
 	Name      string `json:"name"`
 	Duration  int    `json:"duration"`
 	Thumbnail string `json:"thumbnail"`
@@ -18,12 +18,12 @@ type ListData struct {
 func List(ids []database.VideoData, w http.ResponseWriter) {
 	responseData := make([]ListData, len(ids))
 	for i := 0; i < len(ids); i++ {
-		data_src := ids[i]
+		dataSrc := ids[i]
 		responseData[i] = ListData{
-			data_src.Id,
-			data_src.Name,
-			data_src.Duration,
-			"/" + database.GetPreviewFilePath(data_src.Id)}
+			dataSrc.ID,
+			dataSrc.Name,
+			dataSrc.Duration,
+			"/" + database.GetPreviewFilePath(dataSrc.ID)}
 	}
 
 	b, err := json.Marshal(responseData)
