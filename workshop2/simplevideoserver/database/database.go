@@ -125,8 +125,8 @@ func (db Database) GetPendingVideoList() ([]PendingVideoData, error) {
 	return elements, nil
 }
 
-func (db Database) MarkPendingVideosAsInProgress() {
-	if _, err := db.db.Exec("UPDATE video SET status = ? WHERE status = ?;", StatusInProgress, StatusPending); err != nil {
+func (db Database) MarkVideoAsInProgress(dbID int) {
+	if _, err := db.db.Exec("UPDATE video SET status = ? WHERE id = ?;", StatusInProgress, dbID); err != nil {
 		log.Fatal(err)
 	}
 }

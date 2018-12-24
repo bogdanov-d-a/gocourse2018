@@ -45,9 +45,8 @@ func main() {
 			list, err := db.GetPendingVideoList()
 
 			if err == nil {
-				db.MarkPendingVideosAsInProgress()
-
 				for i := 0; i < len(list); i++ {
+					db.MarkVideoAsInProgress(list[i].DbID)
 					workerTaskChan <- list[i]
 				}
 			}
