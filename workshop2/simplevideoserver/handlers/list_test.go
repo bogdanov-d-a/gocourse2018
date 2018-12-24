@@ -11,7 +11,7 @@ import (
 
 func TestList(t *testing.T) {
 	w := httptest.NewRecorder()
-	List(make([]database.VideoData, 0), w)
+	list(make([]database.VideoData, 0), w)
 	response := w.Result()
 	if response.StatusCode != http.StatusOK {
 		t.Errorf("Status code is wrong. Have: %d, want: %d.", response.StatusCode, http.StatusOK)
@@ -22,7 +22,7 @@ func TestList(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	items := make([]ListItemData, 10)
+	items := make([]listItemData, 10)
 	if err = json.Unmarshal(jsonString, &items); err != nil {
 		t.Errorf("Can't parse json response with error %v", err)
 	}

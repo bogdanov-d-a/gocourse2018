@@ -11,7 +11,7 @@ import (
 
 func TestVideo(t *testing.T) {
 	w := httptest.NewRecorder()
-	Video(database.VideoData{}, w)
+	video(database.VideoData{}, w)
 	response := w.Result()
 	if response.StatusCode != http.StatusOK {
 		t.Errorf("Status code is wrong. Have: %d, want: %d.", response.StatusCode, http.StatusOK)
@@ -22,7 +22,7 @@ func TestVideo(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	item := VideoData{}
+	item := videoData{}
 	if err = json.Unmarshal(jsonString, &item); err != nil {
 		t.Errorf("Can't parse json response with error %v", err)
 	}
