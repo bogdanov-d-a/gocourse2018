@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"strconv"
 )
 
 func logMiddleware(h http.Handler) http.Handler {
@@ -23,8 +24,20 @@ func Router(db database.Database) http.Handler {
 	r := mux.NewRouter()
 	s := r.PathPrefix("/api/v1").Subrouter()
 
-	s.HandleFunc("/list", func(w http.ResponseWriter, _ *http.Request) {
-		ids, err := db.GetVideoList()
+	s.HandleFunc("/list", func(w http.ResponseWriter, r *http.Request) {
+		query := r.URL.Query()
+
+		limit := 6
+		if limit64, err := strconv.ParseInt(query.Get("limit"), 10, 0); err == nil {
+			limit = int(limit64)
+		}
+
+		skip := 0
+		if skip64, err := strconv.ParseInt(query.Get("skip"), 10, 0); err == nil {
+			skip = int(skip64)
+		}
+
+		ids, err := db.GetVideoList(skip, limit)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

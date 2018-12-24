@@ -61,10 +61,10 @@ func (db Database) Init() {
 );`)
 }
 
-func (db Database) GetVideoList() ([]VideoData, error) {
+func (db Database) GetVideoList(skip int, take int) ([]VideoData, error) {
 	elements := make([]VideoData, 0)
 
-	rows, err := db.db.Query("SELECT video_key, title, duration FROM video;")
+	rows, err := db.db.Query("SELECT video_key, title, duration FROM video LIMIT ?, ?;", skip, take)
 	if err != nil {
 		return elements, err
 	}
