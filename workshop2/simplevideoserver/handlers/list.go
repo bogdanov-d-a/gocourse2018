@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-type ListData struct {
+type ListItemData struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
 	Duration  int    `json:"duration"`
@@ -16,10 +16,10 @@ type ListData struct {
 }
 
 func List(ids []database.VideoData, w http.ResponseWriter) {
-	responseData := make([]ListData, len(ids))
+	responseData := make([]ListItemData, len(ids))
 	for i := 0; i < len(ids); i++ {
 		dataSrc := ids[i]
-		responseData[i] = ListData{
+		responseData[i] = ListItemData{
 			dataSrc.ID,
 			dataSrc.Name,
 			dataSrc.Duration,

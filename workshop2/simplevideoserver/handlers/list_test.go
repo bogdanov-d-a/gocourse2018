@@ -22,7 +22,7 @@ func TestList(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	items := make([]ListData, 10)
+	items := make([]ListItemData, 10)
 	if err = json.Unmarshal(jsonString, &items); err != nil {
 		t.Errorf("Can't parse json response with error %v", err)
 	}
