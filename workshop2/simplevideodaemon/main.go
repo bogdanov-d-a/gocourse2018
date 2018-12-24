@@ -27,7 +27,7 @@ func main() {
 	killSignalChan := getKillSignalChan()
 
 	var wg sync.WaitGroup
-	stopPumpChan := make(chan struct{})
+	stopPumpChan := make(chan struct{}, 1)
 	stopWorkerChan := make(chan struct{}, workerCount)
 	workerTaskChan := make(chan database.PendingVideoData, workerCount)
 
