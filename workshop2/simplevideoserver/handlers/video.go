@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-type VideoData struct {
+type videoData struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
 	Duration  int    `json:"duration"`
@@ -16,8 +16,8 @@ type VideoData struct {
 	URL       string `json:"url"`
 }
 
-func Video(dataSrc database.VideoData, w http.ResponseWriter) {
-	data := VideoData{
+func video(dataSrc database.VideoData, w http.ResponseWriter) {
+	data := videoData{
 		dataSrc.ID,
 		dataSrc.Name,
 		dataSrc.Duration,

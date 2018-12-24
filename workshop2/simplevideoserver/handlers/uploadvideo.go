@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func UploadVideo(db database.Database, w http.ResponseWriter, r *http.Request) {
+func uploadVideo(db database.Database, w http.ResponseWriter, r *http.Request) {
 	fileReader, header, err := r.FormFile("file[]")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

@@ -8,18 +8,18 @@ import (
 	"net/http"
 )
 
-type ListItemData struct {
+type listItemData struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
 	Duration  int    `json:"duration"`
 	Thumbnail string `json:"thumbnail"`
 }
 
-func List(ids []database.VideoData, w http.ResponseWriter) {
-	responseData := make([]ListItemData, len(ids))
+func list(ids []database.VideoData, w http.ResponseWriter) {
+	responseData := make([]listItemData, len(ids))
 	for i := 0; i < len(ids); i++ {
 		dataSrc := ids[i]
-		responseData[i] = ListItemData{
+		responseData[i] = listItemData{
 			dataSrc.ID,
 			dataSrc.Name,
 			dataSrc.Duration,

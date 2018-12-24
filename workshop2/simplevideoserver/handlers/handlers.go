@@ -42,7 +42,8 @@ func Router(db database.Database) http.Handler {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		List(ids, w)
+
+		list(ids, w)
 	}).Methods(http.MethodGet)
 
 	s.HandleFunc("/video/{ID}", func(w http.ResponseWriter, r *http.Request) {
@@ -55,9 +56,9 @@ func Router(db database.Database) http.Handler {
 			return
 		}
 
-		Video(dataSrc, w)
+		video(dataSrc, w)
 	}).Methods(http.MethodGet)
 
-	s.HandleFunc("/video", func(w http.ResponseWriter, r *http.Request) { UploadVideo(db, w, r) }).Methods(http.MethodPost)
+	s.HandleFunc("/video", func(w http.ResponseWriter, r *http.Request) { uploadVideo(db, w, r) }).Methods(http.MethodPost)
 	return logMiddleware(r)
 }
