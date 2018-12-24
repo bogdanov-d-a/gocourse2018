@@ -12,6 +12,15 @@ type VideoData struct {
 	Duration int
 }
 
+type PendingVideoData struct {
+	DbID int
+	ID   string
+}
+
+const StatusPending = 1
+const StatusInProgress = 2
+const StatusComplete = 3
+
 type Database struct {
 	db *sql.DB
 }
@@ -92,6 +101,44 @@ func (db Database) GetVideoListDataByID(id string) (VideoData, error) {
 
 func (db Database) AddVideo(data VideoData) {
 	if _, err := db.db.Exec("INSERT INTO video (video_key, title, duration) VALUES (?, ?, ?);", data.ID, data.Name, data.Duration); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (db Database) GetPendingVideoList() ([]PendingVideoData, error) {
+	elements := make([]PendingVideoData, 0)
+
+	rows, err := db.db.Query("SELECT id, video_key FROM video WHERE status=?;", StatusPending)
+	if err != nil {
+		return elements, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var element PendingVideoData
+		if err := rows.Scan(&element.DbID, &element.ID); err != nil {
+			return elements, err
+		}
+		elements = append(elements, element)
+	}
+
+	return elements, nil
+}
+
+func (db Database) MarkPendingVideosAsInProgress() {
+	if _, err := db.db.Exec("UPDATE video SET status = ? WHERE status = ?;", StatusInProgress, StatusPending); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (db Database) MarkInProgressVideosAsPending() {
+	if _, err := db.db.Exec("UPDATE video SET status = ? WHERE status = ?;", StatusPending, StatusInProgress); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (db Database) MarkVideoAsComplete(dbID int, duration int) {
+	if _, err := db.db.Exec("UPDATE video SET status = ?, duration = ? WHERE id = ?;", StatusComplete, duration, dbID); err != nil {
 		log.Fatal(err)
 	}
 }

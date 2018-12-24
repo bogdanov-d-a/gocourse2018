@@ -27,6 +27,10 @@ func MakeContentDir(id string) error {
 	return os.Mkdir(getContentDirForID(id), os.ModeDir)
 }
 
+func DaemonPathWrap(path string) string {
+	return "../simplevideoserver/" + path
+}
+
 func openNewFile(path string) (*os.File, error) {
 	return os.OpenFile(path, os.O_CREATE|os.O_WRONLY, os.ModePerm)
 }
