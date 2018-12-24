@@ -19,3 +19,15 @@ func TestNegative(t *testing.T) {
 func TestFive(t *testing.T) {
 	testImpl(t, 5, "1, 2, Fizz, 4, Buzz")
 }
+
+func TestNoFizz(t *testing.T) {
+	testImpl(t, 2, "1, 2")
+}
+
+func TestNoBuzz(t *testing.T) {
+	testImpl(t, 4, "1, 2, Fizz, 4")
+}
+
+func TestFizzBuzz(t *testing.T) {
+	testImpl(t, 16, "1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, Fizz Buzz, 16")
+}
