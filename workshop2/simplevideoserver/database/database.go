@@ -81,7 +81,7 @@ func (db Database) GetVideoList(skip int, take int) ([]VideoData, error) {
 	return elements, nil
 }
 
-func (db Database) GetVideoListDataByID(id string) (VideoData, error) {
+func (db Database) GetVideoDataByID(id string) (VideoData, error) {
 	result := VideoData{}
 
 	rows, err := db.db.Query("SELECT video_key, title, duration FROM video WHERE video_key=?;", id)

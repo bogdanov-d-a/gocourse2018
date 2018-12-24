@@ -49,7 +49,7 @@ func Router(db database.Database) http.Handler {
 		vars := mux.Vars(r)
 		id := vars["ID"]
 
-		dataSrc, err := db.GetVideoListDataByID(id)
+		dataSrc, err := db.GetVideoDataByID(id)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
